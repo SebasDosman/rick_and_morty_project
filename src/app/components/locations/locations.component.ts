@@ -11,7 +11,7 @@ import { CharactersService } from 'src/app/services/characters.service';
 })
 export class LocationsComponent implements OnInit {
   locations: Locations = new Locations();
-  characters: Character[] = [];
+  charactersMap: { [key: string]: Character[] } = {};
 
   constructor(
     private _locationsService: LocationsService,
@@ -30,22 +30,15 @@ export class LocationsComponent implements OnInit {
   }
 
   private loadCharacters() {
-    const characterIdsList: string[] = [];
-
     this.locations.results?.forEach(location => {
       const ids = location.residents
         ?.map(character => character.split('/').pop())
         .filter((id): id is string => !!id);
 
-      if (ids) characterIdsList.push(...ids);
-    });
-
-    const uniqueIds = Array.from(new Set(characterIdsList));
-
-    if (uniqueIds.length) {
-      this._charactersService.getCharactersByIds(uniqueIds).subscribe(response => {
-        if (Array.isArray(response)) this.characters = response;
+      this._charactersService.getCharactersByIds(ids!).subscribe(response => {
+        if (Array.isArray(response)) this.charactersMap[location.id!] = response;
+        else this.charactersMap[location.id!] = [response];
       });
-    }
+    });
   }
 }

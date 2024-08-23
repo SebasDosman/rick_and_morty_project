@@ -11,7 +11,7 @@ import { EpisodesService } from 'src/app/services/episodes.service';
 })
 export class EpisodesComponent  implements OnInit {
   episodes: Episodes = new Episodes();
-  characters: Character[] = [];
+  charactersMap: { [key: string]: Character[] } = {};
 
   constructor(
     private _episodesService: EpisodesService,
@@ -30,22 +30,15 @@ export class EpisodesComponent  implements OnInit {
   }
 
   private loadCharacters() {
-    const characterIdsList: string[] = [];
-
     this.episodes.results?.forEach(episode => {
       const ids = episode.characters
         ?.map(character => character.split('/').pop())
         .filter((id): id is string => !!id);
 
-      if (ids) characterIdsList.push(...ids);
-    });
-
-    const uniqueIds = Array.from(new Set(characterIdsList));
-
-    if (uniqueIds.length) {
-      this._charactersService.getCharactersByIds(uniqueIds).subscribe(response => {
-        if (Array.isArray(response)) this.characters = response;
+      this._charactersService.getCharactersByIds(ids!).subscribe(response => {
+        if (Array.isArray(response)) this.charactersMap[episode.id!] = response;
+        else this.charactersMap[episode.id!] = [response];
       });
-    }
+    });
   }
 }

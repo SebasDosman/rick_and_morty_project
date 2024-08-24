@@ -1,13 +1,13 @@
 import { Location } from "./location.model";
 
 export class Locations {
-  info: LocationInfo | undefined;
-  results: Location[] | undefined;
+  info?: LocationInfo;
+  results?: Location[];
 }
 
 export class LocationInfo {
-  count: number | undefined;
-  pages: number | undefined;
-  next: string | undefined;
-  prev: string | undefined;
+  count?: number;
+  pages?: number;
+  next?: string;
+  prev?: string;
 }

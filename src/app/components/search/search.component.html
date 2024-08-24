@@ -1,3 +1,57 @@
 <div class="container">
-  <ion-searchbar color="light" placeholder="Search..."></ion-searchbar>
+  <ion-searchbar
+    color="light"
+    placeholder="Search..."
+    (ionInput)="onSearch($event)">
+  </ion-searchbar>
+
+  <div class="content-container">
+    <div *ngIf="results?.characters?.length">
+      <ion-card>
+        <ion-card-content>
+          <ion-list>
+            <ion-item *ngFor="let character of results.characters">
+              <ion-thumbnail slot="start">
+                <img [src]="character.image" alt="{{ character.name }}" />
+              </ion-thumbnail>
+              <ion-label>
+                <h2>{{ character.name }}</h2>
+                <p>{{ character.species }} - {{ character.gender }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div *ngIf="results?.episodes?.length">
+      <ion-card>
+        <ion-card-content>
+          <ion-list>
+            <ion-item *ngFor="let episode of results.episodes">
+              <ion-label>
+                <h2>{{ episode.name }}</h2>
+                <p>{{ episode.episode }} - {{ episode.air_date }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div *ngIf="results?.locations?.length">
+      <ion-card>
+        <ion-card-content>
+          <ion-list>
+            <ion-item *ngFor="let location of results.locations">
+              <ion-label>
+                <h2>{{ location.name }}</h2>
+                <p>{{ location.type }} - {{ location.dimension }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 </div>

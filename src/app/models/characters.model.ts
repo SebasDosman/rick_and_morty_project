@@ -1,13 +1,13 @@
 import { Character } from './character.model';
 
 export class Characters {
-  info: CharacterInfo | undefined;
-  results: Character[] | undefined;
+  info?: CharacterInfo;
+  results?: Character[];
 }
 
 export class CharacterInfo {
-  count: number | undefined;
-  pages: number | undefined;
-  next: string | undefined;
-  prev: string | undefined;
+  count?: number;
+  pages?: number;
+  next?: string;
+  prev?: string;
 }

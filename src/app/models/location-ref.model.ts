@@ -1,4 +1,4 @@
 export class LocationRef {
-  url: string | undefined;
-  name: string | undefined;
+  url?: string;
+  name?: string;
 }

@@ -25,7 +25,7 @@ export class CharactersComponent  implements OnInit {
   }
 
   private loadCharacters() {
-    let MAX_PAGES: number = 42;
+    const MAX_PAGES: number = 42;
 
     for (let i = 1; i <= MAX_PAGES; i++) {
       this._charactersService.getCharactersByPage(i).subscribe(response => {

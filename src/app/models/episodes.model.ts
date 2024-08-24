@@ -1,13 +1,13 @@
 import { Episode } from './episode.model';
 
 export class Episodes {
-  info: EpisodeInfo | undefined;
-  results: Episode[] | undefined;
+  info?: EpisodeInfo;
+  results?: Episode[];
 }
 
 export class EpisodeInfo {
-  count: number | undefined;
-  pages: number | undefined;
-  next: string | undefined;
-  prev: string | undefined;
+  count?: number;
+  pages?: number;
+  next?: string;
+  prev?: string;
 }

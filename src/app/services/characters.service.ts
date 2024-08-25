@@ -10,29 +10,33 @@ import { CharacterFilter } from '../models/character-filter.model';
   providedIn: 'root'
 })
 export class CharactersService {
+  private readonly charactersUrl: string = `${ environment.apiUri }/api/character`;
+
   constructor(private http: HttpClient) { }
 
   public getCharacters(): Observable<Characters> {
-    return this.http.get<Characters>(`${ environment.apiUri }/api/character`);
+    return this.http.get<Characters>(`${ this.charactersUrl }`);
   }
 
   public getCharactersByPage(page: number): Observable<Characters> {
-    return this.http.get<Characters>(`${ environment.apiUri }/api/character/?page=${ page }`);
+    return this.http.get<Characters>(`${ this.charactersUrl }`, { params: new HttpParams().set('page', page.toString()) });
   }
 
   public getCharactersByIds(ids: string[]): Observable<Character[]> {
-    return this.http.get<Character[]>(`${ environment.apiUri }/api/character/${ ids.join(',') }`);
+    return this.http.get<Character[]>(`${ this.charactersUrl }/${ ids.join(',') }`);
   }
 
   public getCharactersByFilter(characterFilter: CharacterFilter): Observable<Characters> {
+    const params = this.buildFilterParams(characterFilter);
+
+    return this.http.get<Characters>(this.charactersUrl, { params });
+  }
+
+  private buildFilterParams(characterFilter: CharacterFilter): HttpParams {
     let params = new HttpParams();
 
     if (characterFilter.name) params = params.set('name', characterFilter.name);
-    if (characterFilter.status) params = params.set('status', characterFilter.status);
-    if (characterFilter.species) params = params.set('species', characterFilter.species);
-    if (characterFilter.type) params = params.set('type', characterFilter.type);
-    if (characterFilter.gender) params = params.set('gender', characterFilter.gender);
 
-    return this.http.get<Characters>(`${ environment.apiUri }/api/character`, { params });
+    return params;
   }
 }

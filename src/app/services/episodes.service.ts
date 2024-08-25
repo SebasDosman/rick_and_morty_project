@@ -9,18 +9,25 @@ import { EpisodeFilter } from '../models/episode-filter.model';
   providedIn: 'root'
 })
 export class EpisodesService {
+  private readonly episodesUrl: string = `${ environment.apiUri }/api/episode`;
+
   constructor(private http: HttpClient) { }
 
   public getEpisodes(): Observable<Episodes> {
-    return this.http.get<Episodes>(`${ environment.apiUri }/api/episode`);
+    return this.http.get<Episodes>(`${ this.episodesUrl }`);
   }
 
   public getEpisodesByFilter(episodeFiler: EpisodeFilter): Observable<Episodes> {
+    const params = this.buildFilterParams(episodeFiler);
+
+    return this.http.get<Episodes>(`${ this.episodesUrl }`, { params });
+  }
+
+  private buildFilterParams(episodeFilter: EpisodeFilter): HttpParams {
     let params = new HttpParams();
 
-    if (episodeFiler.name) params = params.set('name', episodeFiler.name);
-    if (episodeFiler.episode) params = params.set('episode', episodeFiler.episode);
+    if (episodeFilter.name) params = params.set('name', episodeFilter.name);
 
-    return this.http.get<Episodes>(`${ environment.apiUri }/api/episode`, { params });
+    return params;
   }
 }

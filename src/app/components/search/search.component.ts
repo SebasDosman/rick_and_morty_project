@@ -44,8 +44,6 @@ export class SearchComponent  implements OnInit {
       this._locationsService.getLocationsByFilter(locationFilter).subscribe(response => {
         this.results.locations = response.results;
       });
-    } else {
-      this.results = {};
     }
   }
 }

@@ -9,19 +9,25 @@ import { LocationFilter } from '../models/location-filter.model';
   providedIn: 'root'
 })
 export class LocationsService {
+  private readonly locationsUrl: string = `${ environment.apiUri }/api/location`;
+
   constructor(private http: HttpClient) { }
 
   public getLocations(): Observable<Locations> {
-    return this.http.get<Locations>(`${ environment.apiUri }/api/location`);
+    return this.http.get<Locations>(`${ this.locationsUrl }`);
   }
 
   public getLocationsByFilter(locationFilter: LocationFilter): Observable<Locations> {
+    const params = this.buildFilterParams(locationFilter);
+
+    return this.http.get<Locations>(`${ this.locationsUrl }`, { params });
+  }
+
+  private buildFilterParams(locationFilter: LocationFilter): HttpParams {
     let params = new HttpParams();
 
     if (locationFilter.name) params = params.set('name', locationFilter.name);
-    if (locationFilter.type) params = params.set('type', locationFilter.type);
-    if (locationFilter.dimension) params = params.set('dimension', locationFilter.dimension);
 
-    return this.http.get<Locations>(`${ environment.apiUri }/api/location`, { params });
+    return params;
   }
 }

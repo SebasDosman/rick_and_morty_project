@@ -1,4 +1,4 @@
 export class LocationRef {
-  url?: string;
-  name?: string;
+  url!: string;
+  name!: string;
 }

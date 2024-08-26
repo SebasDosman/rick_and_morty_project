@@ -9,7 +9,7 @@ import { EpisodeFilter } from '../models/episode-filter.model';
   providedIn: 'root'
 })
 export class EpisodesService {
-  private readonly episodesUrl: string = `${ environment.apiUri }/api/episode`;
+  private readonly episodesUrl: string = `${ environment.apiUri }/episode`;
 
   constructor(private http: HttpClient) { }
 

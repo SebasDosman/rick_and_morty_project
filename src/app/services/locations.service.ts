@@ -9,7 +9,7 @@ import { LocationFilter } from '../models/location-filter.model';
   providedIn: 'root'
 })
 export class LocationsService {
-  private readonly locationsUrl: string = `${ environment.apiUri }/api/location`;
+  private readonly locationsUrl: string = `${ environment.apiUri }/location`;
 
   constructor(private http: HttpClient) { }
 

@@ -10,7 +10,7 @@ import { CharacterFilter } from '../models/character-filter.model';
   providedIn: 'root'
 })
 export class CharactersService {
-  private readonly charactersUrl: string = `${ environment.apiUri }/api/character`;
+  private readonly charactersUrl: string = `${ environment.apiUri }/character`;
 
   constructor(private http: HttpClient) { }
 

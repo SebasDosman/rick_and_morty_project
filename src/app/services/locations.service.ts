@@ -17,6 +17,10 @@ export class LocationsService {
     return this.http.get<Locations>(`${ this.locationsUrl }`);
   }
 
+  public getLocationsByPage(page: number): Observable<Locations> {
+    return this.http.get<Locations>(`${ this.locationsUrl }`, { params: new HttpParams().set('page', page.toString()) });
+  }
+
   public getLocationsByFilter(locationFilter: LocationFilter): Observable<Locations> {
     const params = this.buildFilterParams(locationFilter);
 

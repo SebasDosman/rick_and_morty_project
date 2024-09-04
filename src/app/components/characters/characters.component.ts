@@ -1,54 +1,58 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonModal } from '@ionic/angular';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { Character } from 'src/app/models/character.model';
-import { Characters } from 'src/app/models/characters.model';
 import { CharactersService } from 'src/app/services/characters.service';
 import { FavoritesService } from 'src/app/services/favorites.service';
+import { ModalController } from '@ionic/angular';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-characters',
   templateUrl: './characters.component.html',
   styleUrls: ['./characters.component.scss'],
 })
-export class CharactersComponent  implements OnInit {
+export class CharactersComponent implements OnInit {
+  characters: Character[] = [];
+  currentPage: number = 1;
+  private MAX_PAGES: number = 42;
+
   constructor(
     private _charactersService: CharactersService,
-    private _favoritesService: FavoritesService
-  ) { }
-
-  @ViewChild('characterModal') modal: IonModal | undefined;
-  selectedCharacter: Character | undefined;
-  characters: Characters = new Characters();
+    private _favoritesService: FavoritesService,
+    private _modalController: ModalController
+  ) {}
 
   ngOnInit() {
-    this.loadCharacters();
+    this.loadCharacters(this.currentPage);
   }
 
-  private loadCharacters() {
-    const MAX_PAGES: number = 42;
-
-    for (let i = 1; i <= MAX_PAGES; i++) {
-      this._charactersService.getCharactersByPage(i).subscribe(response => {
-        if (response?.results) this.characters.results = [...(this.characters.results || []), ...response.results];
-      });
-    }
+  private loadCharacters(page: number) {
+    this._charactersService.getCharactersByPage(page).subscribe(response => {
+      if (response.results) this.characters = [...this.characters, ...response.results];
+    });
   }
 
-  selectCharacter(index: number) {
-    this.selectedCharacter = this.characters.results?.[index];
+  onIonInfinite(event: InfiniteScrollCustomEvent) {
+    this.currentPage++;
+    this.loadCharacters(this.currentPage);
+
+    setTimeout(() => {
+      event.target.complete();
+
+      if (this.currentPage >= this.MAX_PAGES) event.target.disabled = true;
+    }, 500);
   }
 
-  addFavoriteCharacter(index: number) {
-    const character = this.characters.results?.[index];
-
-    if (character) this._favoritesService.addFavorite(character);
+  addFavoriteCharacter(character: Character) {
+    this._favoritesService.addFavorite(character);
   }
 
-  openModal() {
-    this.modal?.present();
-  }
-
-  cancelModal() {
-    this.modal?.dismiss();
+  openModal(character: Character) {
+    this._modalController.create({
+      component: ModalComponent,
+      componentProps: {
+        character: character
+      }
+    }).then(modal => modal.present());
   }
 }

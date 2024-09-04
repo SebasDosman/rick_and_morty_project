@@ -1,53 +1,26 @@
-<div *ngIf="characters?.results" class="container">
-  <ion-card id="card">
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let character of characters.results; let characterIndex = index;">
-          <ion-thumbnail slot="start">
-            <img alt="Character image" src="{{ character.image }}" (click)="selectCharacter(characterIndex); openModal();" class="pointer-content" />
-          </ion-thumbnail>
-          <ion-label>
-            <h2>
-              {{ character.name }}
-            </h2>
-            <p>
-              {{ character.species }}
-            </p>
-          </ion-label>
-          <ion-button (click)="addFavoriteCharacter(characterIndex)">
-            <ion-icon name="bookmark"></ion-icon>
-          </ion-button>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-modal #characterModal>
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-buttons slot="start">
-            <ion-button (click)="cancelModal()">
-              <ion-icon name="close"></ion-icon>
+<div *ngIf="characters" class="container">
+  <ion-content>
+    <ion-card id="card">
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let character of characters">
+            <ion-thumbnail slot="start">
+              <img alt="Character image" [src]="character.image" (click)="openModal(character)" class="pointer-content" />
+            </ion-thumbnail>
+            <ion-label>
+              <h2>{{ character.name }}</h2>
+              <p>{{ character.species }}</p>
+            </ion-label>
+            <ion-button (click)="addFavoriteCharacter(character)">
+              <ion-icon name="bookmark"></ion-icon>
             </ion-button>
-          </ion-buttons>
-          <ion-title>{{ selectedCharacter?.name }}</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content>
-        <ion-item>
-          <ion-thumbnail slot="start">
-            <img [src]="selectedCharacter?.image" alt="Character image" />
-          </ion-thumbnail>
-          <ion-label>
-            <p>Species: {{ selectedCharacter?.species }}</p>
-            <p>Gender: {{ selectedCharacter?.gender }}</p>
-            <p>Status: {{ selectedCharacter?.status }}</p>
-            <p>Origin: {{ selectedCharacter?.origin?.name }}</p>
-            <p>Location: {{ selectedCharacter?.location?.name }}</p>
-          </ion-label>
-        </ion-item>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+          </ion-item>
+        </ion-list>
+        <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+          <ion-infinite-scroll-content loadingText="Loading..." loadingSpinner="bubbles">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
 </div>

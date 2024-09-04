@@ -17,6 +17,10 @@ export class EpisodesService {
     return this.http.get<Episodes>(`${ this.episodesUrl }`);
   }
 
+  public getEpisodesByPage(page: number): Observable<Episodes> {
+    return this.http.get<Episodes>(`${ this.episodesUrl }`, { params: new HttpParams().set('page', page.toString()) });
+  }
+
   public getEpisodesByFilter(episodeFiler: EpisodeFilter): Observable<Episodes> {
     const params = this.buildFilterParams(episodeFiler);
 

@@ -3,6 +3,8 @@ import { Locations } from 'src/app/models/locations.model';
 import { Character } from 'src/app/models/character.model';
 import { LocationsService } from 'src/app/services/locations.service';
 import { CharactersService } from 'src/app/services/characters.service';
+import { InfiniteScrollCustomEvent } from '@ionic/angular';
+import { Location } from 'src/app/models/location.model';
 
 @Component({
   selector: 'app-locations',
@@ -10,8 +12,10 @@ import { CharactersService } from 'src/app/services/characters.service';
   styleUrls: ['./locations.component.scss'],
 })
 export class LocationsComponent implements OnInit {
-  locations: Locations = new Locations();
+  locations: Location[] = [];
   charactersMap: { [key: string]: Character[] } = {};
+  currentPage: number = 1;
+  MAX_PAGES: number = 7;
 
   constructor(
     private _locationsService: LocationsService,
@@ -19,18 +23,18 @@ export class LocationsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadLocations();
+    this.loadLocations(this.currentPage);
   }
 
-  private loadLocations() {
-    this._locationsService.getLocations().subscribe(response => {
-      this.locations = response;
+  private loadLocations(page: number) {
+    this._locationsService.getLocationsByPage(page).subscribe(response => {
+      if (response.results) this.locations = [...this.locations, ...response.results];
       this.loadCharacters();
     });
   }
 
   private loadCharacters() {
-    this.locations.results?.forEach(location => {
+    this.locations?.forEach(location => {
       const ids = location.residents
         ?.map(character => character.split('/').pop())
         .filter((id): id is string => !!id);
@@ -40,5 +44,18 @@ export class LocationsComponent implements OnInit {
         else this.charactersMap[location.id!] = [response];
       });
     });
+  }
+
+  onIonInfinite(event: InfiniteScrollCustomEvent) {
+    if (this.currentPage < this.MAX_PAGES) {
+      this.currentPage++;
+      this.loadLocations(this.currentPage);
+    } else {
+      event.target.disabled = true;
+    }
+
+    setTimeout(() => {
+      event.target.complete();
+    }, 500);
   }
 }

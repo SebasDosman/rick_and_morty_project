@@ -22,6 +22,10 @@ export class CharactersService {
     return this.http.get<Characters>(`${ this.charactersUrl }`, { params: new HttpParams().set('page', page.toString()) });
   }
 
+  public getCharacterById(id: number): Observable<Character> {
+    return this.http.get<Character>(`${ this.charactersUrl }/${ id }`);
+  }
+
   public getCharactersByIds(ids: string[]): Observable<Character[]> {
     return this.http.get<Character[]>(`${ this.charactersUrl }/${ ids.join(',') }`);
   }

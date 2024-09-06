@@ -11,10 +11,23 @@ export class FavoritesService {
 
   constructor() { }
 
-  public addFavorite(character: Character) {
+  public addFavorite(character: Character): void {
     const currentFavorites = this.favoriteCharactersSubject.value;
 
     if (!currentFavorites.some(c => c.id === character.id)) this.favoriteCharactersSubject.next([...currentFavorites, character]);
+  }
+
+  public removeFavorite(character: Character): void {
+    const currentFavorites = this.favoriteCharactersSubject.value;
+
+    if (currentFavorites.some(c => c.id === character.id)) {
+      const updatedFavorites = currentFavorites.filter(c => c.id !== character.id);
+      this.favoriteCharactersSubject.next(updatedFavorites);
+    }
+  }
+
+  public isFavorite(character: Character): boolean {
+    return this.favoriteCharactersSubject.value.some(c => c.id === character.id);
   }
 
   public getFavorites(): Character[] {

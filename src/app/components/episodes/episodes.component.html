@@ -1,25 +1,31 @@
-<div *ngIf="episodes?.results" class="container">
-  <ion-card *ngFor="let episode of episodes.results">
-    <ion-card-header>
-      <ion-card-title>{{ episode.name }}</ion-card-title>
-      <ion-card-subtitle>{{ episode.episode }} - {{ episode.air_date }}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let character of charactersMap[episode.id!]">
-          <ion-thumbnail slot="start">
-            <img alt="{{ character.name }}" [src]="character.image" />
-          </ion-thumbnail>
-          <ion-label>
-            <h2>
-              {{ character.name }}
-            </h2>
-            <p>
-              {{ character.species }}
-            </p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+<div *ngIf="episodes" class="container">
+  <ion-content>
+    <ion-card *ngFor="let episode of episodes">
+      <ion-card-header>
+        <ion-card-title>{{ episode.name }}</ion-card-title>
+        <ion-card-subtitle>{{ episode.episode }} - {{ episode.air_date }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let character of charactersMap[episode.id!]">
+            <ion-thumbnail slot="start">
+              <img alt="{{ character.name }}" [src]="character.image" />
+            </ion-thumbnail>
+            <ion-label>
+              <h2>
+                {{ character.name }}
+              </h2>
+              <p>
+                {{ character.species }}
+              </p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+          <ion-infinite-scroll-content loadingText="Loading..." loadingSpinner="bubbles">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
 </div>

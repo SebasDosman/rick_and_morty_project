@@ -5,9 +5,14 @@
         <ion-list>
           <ion-item *ngFor="let character of characters">
             <ion-thumbnail slot="start">
-              <img alt="Character image" [src]="character.image" (click)="openModal(character)" class="pointer-content" />
+              <img
+                alt="Character image"
+                [src]="character.image"
+                (click)="openModal(character)"
+                class="pointer-content"
+              />
             </ion-thumbnail>
-            <ion-label>
+            <ion-label (click)="openCharacter(character.id)">
               <h2>{{ character.name }}</h2>
               <p>{{ character.species }}</p>
             </ion-label>
@@ -17,7 +22,10 @@
           </ion-item>
         </ion-list>
         <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-          <ion-infinite-scroll-content loadingText="Loading..." loadingSpinner="bubbles">
+          <ion-infinite-scroll-content
+            loadingText="Loading..."
+            loadingSpinner="bubbles"
+          >
           </ion-infinite-scroll-content>
         </ion-infinite-scroll>
       </ion-card-content>

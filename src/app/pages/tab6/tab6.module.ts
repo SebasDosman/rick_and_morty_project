@@ -1,10 +1,10 @@
-import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
 
-import { Tab3Page } from './tab3.page';
-import { Tab3PageRoutingModule } from './tab3-routing.module';
+import { Tab6Page } from './tab6.page';
+import { Tab6PageRoutingModule } from './tab6-routing.module';
 
 import { ComponentsModule } from 'src/app/components/components.module';
 
@@ -14,8 +14,8 @@ import { ComponentsModule } from 'src/app/components/components.module';
     CommonModule,
     ComponentsModule,
     FormsModule,
-    Tab3PageRoutingModule
+    Tab6PageRoutingModule
   ],
-  declarations: [Tab3Page]
+  declarations: [Tab6Page]
 })
-export class Tab3PageModule {}
+export class Tab6PageModule {}

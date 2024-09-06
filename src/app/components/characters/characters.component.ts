@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { Character } from 'src/app/models/character.model';
 import { CharactersService } from 'src/app/services/characters.service';
 import { FavoritesService } from 'src/app/services/favorites.service';
 import { ModalController } from '@ionic/angular';
 import { ModalComponent } from '../modal/modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-characters',
@@ -19,7 +20,8 @@ export class CharactersComponent implements OnInit {
   constructor(
     private _charactersService: CharactersService,
     private _favoritesService: FavoritesService,
-    private _modalController: ModalController
+    private _modalController: ModalController,
+    private _router: Router
   ) {}
 
   ngOnInit() {
@@ -69,5 +71,9 @@ export class CharactersComponent implements OnInit {
         character: character
       }
     }).then(modal => modal.present());
+  }
+
+  openCharacter(characterId: number) {
+    this._router.navigate(['/tab6', characterId]);
   }
 }

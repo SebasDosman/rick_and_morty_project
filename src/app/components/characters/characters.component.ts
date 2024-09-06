@@ -14,7 +14,7 @@ import { ModalComponent } from '../modal/modal.component';
 export class CharactersComponent implements OnInit {
   characters: Character[] = [];
   currentPage: number = 1;
-  private MAX_PAGES: number = 42;
+  MAX_PAGES: number = 42;
 
   constructor(
     private _charactersService: CharactersService,
@@ -33,18 +33,33 @@ export class CharactersComponent implements OnInit {
   }
 
   onIonInfinite(event: InfiniteScrollCustomEvent) {
-    this.currentPage++;
-    this.loadCharacters(this.currentPage);
+    if (this.currentPage < this.MAX_PAGES) {
+      this.currentPage++;
+      this.loadCharacters(this.currentPage);
+    } else {
+      event.target.disabled = true;
+    }
 
     setTimeout(() => {
       event.target.complete();
-
-      if (this.currentPage >= this.MAX_PAGES) event.target.disabled = true;
     }, 500);
   }
 
   addFavoriteCharacter(character: Character) {
     this._favoritesService.addFavorite(character);
+  }
+
+  removeFavoriteCharacter(character: Character) {
+    this._favoritesService.removeFavorite(character);
+  }
+
+  isFavoriteCharacter(character: Character) {
+    return this._favoritesService.isFavorite(character);
+  }
+
+  addOrRemoveFavoriteCharacter(character: Character) {
+    if (this.isFavoriteCharacter(character)) this.removeFavoriteCharacter(character);
+    else this.addFavoriteCharacter(character);
   }
 
   openModal(character: Character) {

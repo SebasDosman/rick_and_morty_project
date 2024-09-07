@@ -2,7 +2,8 @@
   <ion-searchbar
     color="light"
     placeholder="Search..."
-    (ionInput)="onSearch($event)">
+    (ionInput)="onSearch($event)"
+  >
   </ion-searchbar>
 
   <div class="content-container" id="content">
@@ -52,6 +53,10 @@
           </ion-list>
         </ion-card-content>
       </ion-card>
+    </div>
+
+    <div *ngIf="noResultsFound" class="no-results">
+      <ion-item>No results found</ion-item>
     </div>
   </div>
 </div>

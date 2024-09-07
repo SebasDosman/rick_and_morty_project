@@ -14,8 +14,9 @@ import { LocationsService } from 'src/app/services/locations.service';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent  implements OnInit {
+export class SearchComponent implements OnInit {
   results: { characters?: Character[], episodes?: Episode[], locations?: Location[] } = {};
+  noResultsFound: boolean = false;
 
   constructor(
     private _charactersService: CharactersService,
@@ -33,17 +34,32 @@ export class SearchComponent  implements OnInit {
       const episodeFilter: EpisodeFilter = { name: searchTerm };
       const locationFilter: LocationFilter = { name: searchTerm };
 
+  
       this._charactersService.getCharactersByFilter(characterFilter).subscribe(response => {
         this.results.characters = response.results;
+        this.updateNoResultsFound();
       });
 
       this._episodesService.getEpisodesByFilter(episodeFilter).subscribe(response => {
         this.results.episodes = response.results;
+        this.updateNoResultsFound();
       });
 
       this._locationsService.getLocationsByFilter(locationFilter).subscribe(response => {
         this.results.locations = response.results;
+        this.updateNoResultsFound();
       });
+    } else {
+      this.results = {};
+      this.noResultsFound = false;
     }
+  }
+
+  private updateNoResultsFound() {
+    this.noResultsFound = !(
+      (this.results.characters && this.results.characters.length > 0) ||
+      (this.results.episodes && this.results.episodes.length > 0) ||
+      (this.results.locations && this.results.locations.length > 0)
+    );
   }
 }

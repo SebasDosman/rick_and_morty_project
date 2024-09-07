@@ -4,6 +4,9 @@ import { Character } from 'src/app/models/character.model';
 import { Episode } from 'src/app/models/episode.model';
 import { CharactersService } from 'src/app/services/characters.service';
 import { EpisodesService } from 'src/app/services/episodes.service';
+import { ModalController } from '@ionic/angular';
+import { ModalComponent } from '../modal/modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-episodes',
@@ -15,10 +18,13 @@ export class EpisodesComponent  implements OnInit {
   charactersMap: { [key: string]: Character[] } = {};
   currentPage: number = 1;
   MAX_PAGES: number = 3;
+  expandedEpisodes: Set<number> = new Set();
 
   constructor(
     private _episodesService: EpisodesService,
-    private _charactersService: CharactersService
+    private _charactersService: CharactersService,
+    private _modalController: ModalController,
+    private _router: Router,
   ) { }
 
   ngOnInit() {
@@ -56,5 +62,30 @@ export class EpisodesComponent  implements OnInit {
     setTimeout(() => {
       event.target.complete();
     }, 500);
+  }
+
+  toggleCharacters(episodeId: number) {
+    if (this.expandedEpisodes.has(episodeId)) {
+      this.expandedEpisodes.delete(episodeId); 
+    } else {
+      this.expandedEpisodes.add(episodeId); 
+    }
+  }
+  
+  isExpanded(episodeId: number): boolean {
+    return this.expandedEpisodes.has(episodeId);
+  }
+
+  openModal(character: Character) {
+    this._modalController.create({
+      component: ModalComponent,
+      componentProps: {
+        character: character
+      }
+    }).then(modal => modal.present());
+  }
+
+  openCharacter(characterId: number) {
+    this._router.navigate(['/tab6', characterId]);
   }
 }

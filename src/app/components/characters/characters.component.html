@@ -5,24 +5,14 @@
         <ion-list>
           <ion-item *ngFor="let character of characters">
             <ion-thumbnail slot="start">
-              <img
-                alt="{{ character.name }}"
-                [src]="character.image"
-                (click)="openModal(character)"
-                class="pointer-content"
-              />
+              <img alt="{{ character.name }}" [src]="character.image" (click)="openModal(character)"
+                class="pointer-content" />
             </ion-thumbnail>
-            <ion-label
-              (click)="openCharacter(character.id)"
-              class="pointer-content"
-            >
+            <ion-label (click)="openCharacter(character.id)" class="pointer-content">
               <h2>{{ character.name }}</h2>
               <p>
                 {{
-                  character.type &&
-                  character.type
-                    .toLowerCase()
-                    .includes(character.species.toLowerCase())
+                  character.type && character.type.toLowerCase().includes(character.species.toLowerCase())
                     ? character.type
                     : character.type === ""
                     ? character.species
@@ -30,25 +20,17 @@
                 }}
               </p>
             </ion-label>
-            <ion-button
-              id="open-toast"
-              (click)="addOrRemoveFavoriteCharacter(character)"
-            >
-              <ion-icon
-                [name]="
+            <ion-button id="open-toast" (click)="addOrRemoveFavoriteCharacter(character)">
+              <ion-icon [name]="
                   isFavoriteCharacter(character)
                     ? 'bookmark'
                     : 'bookmark-outline'
-                "
-              ></ion-icon>
+                "></ion-icon>
             </ion-button>
           </ion-item>
         </ion-list>
         <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-          <ion-infinite-scroll-content
-            loadingText="Loading..."
-            loadingSpinner="bubbles"
-          >
+          <ion-infinite-scroll-content loadingText="Loading..." loadingSpinner="bubbles">
           </ion-infinite-scroll-content>
         </ion-infinite-scroll>
       </ion-card-content>

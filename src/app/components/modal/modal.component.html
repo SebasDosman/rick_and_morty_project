@@ -5,32 +5,30 @@
         <ion-icon name="arrow-back-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>{{ character?.name }}</ion-title>
+    <ion-title>{{ character.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-item>
     <ion-thumbnail slot="start">
-      <img [src]="character?.image" alt="Character image" />
+      <img [src]="character.image" alt="Character image" />
     </ion-thumbnail>
     <ion-label>
       <p>
         Species:
         {{
-          (character?.type ?? "")
-            .toLowerCase()
-            .includes((character?.species ?? "").toLowerCase())
-            ? character?.type
-            : character?.type === "" || character?.type == null
-            ? character?.species ?? ""
-            : (character?.species ?? "") + "/" + (character?.type ?? "")
+          character.type && character.type.toLowerCase().includes(character.species.toLowerCase())
+            ? character.type
+            : character.type === ""
+            ? character.species
+            : character.species + "/" + character.type
         }}
       </p>
-      <p>Gender: {{ character?.gender }}</p>
-      <p>Status: {{ character?.status }}</p>
-      <p>Origin: {{ character?.origin?.name ?? "Unknown" }}</p>
-      <p>Last seen alive: {{ character?.location?.name ?? "Unknown" }}</p>
+      <p>Gender: {{ character.gender }}</p>
+      <p>Status: {{ character.status }}</p>
+      <p>Origin: {{ character.origin.name }}</p>
+      <p>Last seen alive: {{ character.location.name }}</p>
     </ion-label>
   </ion-item>
 </ion-content>

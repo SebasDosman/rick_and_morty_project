@@ -1,30 +1,33 @@
-<ion-card class="card">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
-  <img [alt]="character.name" src="{{ character.image }}" />
+<div class="container">
+  <ion-card class="card">
+    <img [alt]="character.name" src="{{ character.image }}" />
 
-  <ion-card-header>
-    <ion-card-title>{{ character.name }}</ion-card-title>
-  </ion-card-header>
+    <ion-card-header>
+      <ion-card-title>{{ character.name }}</ion-card-title>
+    </ion-card-header>
 
-  <ion-card-content>
-    <p>
-      Species:
-      {{
-        character.type &&
-        character.type.toLowerCase().includes(character.species.toLowerCase())
-          ? character.type
-          : character.type === ""
-          ? character.species
-          : character.species + "/" + character.type
-      }}
-    </p>
-    <p>Gender: {{ character.gender }}</p>
-    <p>Status: {{ character.status }}</p>
-    <p>Origin: {{ character.origin.name }}</p>
-    <p>Last seen alive: {{ character.location.name }}</p>
-  </ion-card-content>
-</ion-card>
+    <ion-card-content>
+      <p>
+        Species:
+        {{
+          character.type &&
+          character.type.toLowerCase().includes(character.species.toLowerCase())
+            ? character.type
+            : character.type === ""
+            ? character.species
+            : character.species + "/" + character.type
+        }}
+      </p>
+      <p>Gender: {{ character.gender }}</p>
+      <p>Status: {{ character.status }}</p>
+      <p>Origin: {{ character.origin.name }}</p>
+      <p>Last seen alive: {{ character.location.name }}</p>
+    </ion-card-content>
+
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/"></ion-back-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-card>
+</div>

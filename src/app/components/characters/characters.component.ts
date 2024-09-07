@@ -6,7 +6,6 @@ import { FavoritesService } from 'src/app/services/favorites.service';
 import { ModalController } from '@ionic/angular';
 import { ModalComponent } from '../modal/modal.component';
 import { Router } from '@angular/router';
-import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-characters',
@@ -17,8 +16,6 @@ export class CharactersComponent implements OnInit {
   characters: Character[] = [];
   currentPage: number = 1;
   MAX_PAGES: number = 42;
-  @ViewChild(IonContent)
-  content!: IonContent;
 
   constructor(
     private _charactersService: CharactersService,
@@ -29,13 +26,6 @@ export class CharactersComponent implements OnInit {
 
   ngOnInit() {
     this.loadCharacters(this.currentPage);
-  }
-  scrollToBottom() {
-    this.content.scrollToBottom(400);
-  }
-
-  scrollToTop() {
-    this.content.scrollToTop(400);
   }
 
   private loadCharacters(page: number) {

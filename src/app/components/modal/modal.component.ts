@@ -8,7 +8,7 @@ import { Character } from 'src/app/models/character.model';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent  implements OnInit {
-  @Input() character: Character | undefined;
+  @Input() character!: Character;
 
   constructor(private _modalController: ModalController) { }
 

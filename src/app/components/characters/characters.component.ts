@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { Character } from 'src/app/models/character.model';
 import { CharactersService } from 'src/app/services/characters.service';

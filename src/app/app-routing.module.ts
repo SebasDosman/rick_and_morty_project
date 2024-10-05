@@ -9,7 +9,15 @@ const routes: Routes = [
   {
     path: 'tab6/:id',
     loadChildren: () => import('./pages/tab6/tab6.module').then( m => m.Tab6PageModule)
+  },  {
+    path: 'tab7',
+    loadChildren: () => import('./pages/tab7/tab7.module').then( m => m.Tab7PageModule)
+  },
+  {
+    path: 'tab8',
+    loadChildren: () => import('./pages/tab8/tab8.module').then( m => m.Tab8PageModule)
   }
+
 ];
 @NgModule({
   imports: [

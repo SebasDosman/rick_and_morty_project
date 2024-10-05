@@ -8,6 +8,7 @@ import { LocationsComponent } from './locations/locations.component';
 import { SearchComponent } from './search/search.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { ModalComponent } from './modal/modal.component';
+import { ScanComponent } from './scan/scan.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ModalComponent } from './modal/modal.component';
     FavoritesComponent,
     LocationsComponent,
     ModalComponent,
+    ScanComponent,
     SearchComponent
   ],
   imports: [
@@ -30,6 +32,7 @@ import { ModalComponent } from './modal/modal.component';
     FavoritesComponent,
     LocationsComponent,
     ModalComponent,
+    ScanComponent,
     SearchComponent
   ]
 })

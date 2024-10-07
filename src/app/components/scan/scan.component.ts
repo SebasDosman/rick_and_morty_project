@@ -24,6 +24,12 @@ export class ScanComponent  implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.characters = this.storageService.getFound();
+
+    this.storageService.found$.subscribe((characters) => {
+      this.characters = characters;
+    });
+
     App.addListener('appStateChange', (state) => {
       if (!state.isActive) BarcodeScanner.stopScan();
     });

@@ -1,19 +1,35 @@
 <div class="container">
-  <ion-card (click)="openModal(character)" *ngFor="let character of characters">
-    <img alt="{{ character.name }}" src="{{ character.image }}" />
+  <ion-content>
+    <ion-card id="card">
+      <ion-card-content id="card-content">
+        <ion-list>
+          <ion-item *ngFor="let character of characters">
+            <ion-thumbnail slot="start">
+              <img [alt]="character.name" src="{{ character.image }}" />
+            </ion-thumbnail>
 
-    <ion-card-header>
-      <ion-card-title>{{ character.name }}</ion-card-title>
-      <ion-card-subtitle>Characters Found</ion-card-subtitle>
-    </ion-card-header>
+            <ion-label>
+              <h2>{{ character.name }}</h2>
+              <p>
+                {{
+                  character.type && character.type.toLowerCase().includes(character.species.toLowerCase())
+                    ? character.type
+                    : character.type === ""
+                    ? character.species
+                    : character.species + "/" + character.type
+                }}
+              </p>
 
-    <ion-card-content>
-      <p>Character Location</p>
-      <p *ngIf="character.location">Longitude: {{ character.location.longitude }}</p>
-      <p *ngIf="character.location">Latitude: {{ character.location.latitude }}</p>
-      <p *ngIf="!character.location">Location not available</p>
-    </ion-card-content>
-  </ion-card>
+              <h2>Character Location</h2>
+              <p *ngIf="character.location">Longitude: {{ character.location.longitude }}</p>
+              <p *ngIf="character.location">Latitude: {{ character.location.latitude }}</p>
+              <p *ngIf="!character.location">Location not available</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="scan()" [disabled]="!isSupported">

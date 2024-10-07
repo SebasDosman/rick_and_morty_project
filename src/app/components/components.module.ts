@@ -8,6 +8,7 @@ import { LocationsComponent } from './locations/locations.component';
 import { SearchComponent } from './search/search.component';
 import { FavoritesComponent } from './favorites/favorites.component';
 import { ModalComponent } from './modal/modal.component';
+import { FormsModule } from '@angular/forms';
 import { ScanComponent } from './scan/scan.component';
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ScanComponent } from './scan/scan.component';
   ],
   imports: [
     IonicModule,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   exports: [
     CharacterComponent,

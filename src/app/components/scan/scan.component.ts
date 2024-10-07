@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { Geolocation } from '@capacitor/geolocation';
-import { ModalComponent } from '../modal/modal.component';
 import { StorageService } from 'src/app/services/storage.service';
 import { App } from '@capacitor/app';
-import { Character } from 'src/app/models/character.model';
 
 @Component({
   selector: 'app-scan',
@@ -22,11 +20,16 @@ export class ScanComponent  implements OnInit {
   constructor(
     private alertController: AlertController,
     private storageService: StorageService,
-    private modalController: ModalController,
     private http: HttpClient
   ) {}
 
   ngOnInit() {
+    this.characters = this.storageService.getFound();
+
+    this.storageService.found$.subscribe((characters) => {
+      this.characters = characters;
+    });
+
     App.addListener('appStateChange', (state) => {
       if (!state.isActive) BarcodeScanner.stopScan();
     });
@@ -140,16 +143,5 @@ export class ScanComponent  implements OnInit {
       console.error("Error getting location:", error);
       this.location = undefined;
     }
-  }
-
-  async openModal(character: any) {
-    const modal = await this.modalController.create({
-      component: ModalComponent,
-      componentProps: {
-        character: character
-      }
-    });
-
-    return await modal.present();
   }
 }

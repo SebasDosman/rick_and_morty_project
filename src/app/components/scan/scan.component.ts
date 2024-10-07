@@ -6,6 +6,7 @@ import { Geolocation } from '@capacitor/geolocation';
 import { ModalComponent } from '../modal/modal.component';
 import { StorageService } from 'src/app/services/storage.service';
 import { App } from '@capacitor/app';
+import { Character } from 'src/app/models/character.model';
 
 @Component({
   selector: 'app-scan',
@@ -26,11 +27,8 @@ export class ScanComponent  implements OnInit {
   ) {}
 
   ngOnInit() {
-
     App.addListener('appStateChange', (state) => {
-      if (!state.isActive) {
-        BarcodeScanner.stopScan(); // Detén el escaneo si la app no está activa
-      }
+      if (!state.isActive) BarcodeScanner.stopScan();
     });
 
     BarcodeScanner.isSupported().then((result) => {
@@ -40,39 +38,42 @@ export class ScanComponent  implements OnInit {
 
   async scan(): Promise<void> {
     const granted = await this.requestPermissions();
+
     if (!granted) {
       this.presentAlert();
       return;
     }
-    
+
     try {
       const { barcodes } = await BarcodeScanner.scan();
+
       if (barcodes.length > 0) {
         const qrCodeData = barcodes[0].rawValue;
         this.fetchCharacterData(qrCodeData);
       }
     } catch (error) {
       console.error("Error scanning:", error);
+
       const alert = await this.alertController.create({
         header: 'Error',
-        message: 'No se pudo abrir la cámara.',
+        message: 'It was not possible to open the camera.',
         buttons: ['OK'],
       });
+
       await alert.present();
     }
   }
 
   async requestPermissions(): Promise<boolean> {
     const { camera } = await BarcodeScanner.requestPermissions();
-  
+
     if (camera !== 'granted') {
       await this.presentAlert();
       return false;
     }
-    
+
     return true;
   }
-  
 
   async presentAlert(): Promise<void> {
     const alert = await this.alertController.create({
@@ -80,48 +81,47 @@ export class ScanComponent  implements OnInit {
       message: 'Please grant camera permission to use the barcode scanner.',
       buttons: ['OK'],
     });
-    
+
     await alert.present();
   }
 
   private fetchCharacterData(endpoint: string): void {
-
     this.http.get(endpoint).subscribe(
       async (character: any) => {
-
         if (this.storageService.isFound(character.id)) {
           const alert = await this.alertController.create({
-            header: 'Personaje ya encontrado',
-            message: 'El personaje ya está en tu lista.',
+            header: 'Character already found ',
+            message: 'The character is already on your list.',
             buttons: ['OK'],
           });
+
           await alert.present();
           return;
         }
 
         await this.getLocation();
 
-        character.ubicacion = {
-          lat: this.location?.latitude,
-          lng: this.location?.longitude
+        character.location = {
+          latitude: this.location?.latitude,
+          longitude: this.location?.longitude
         };
 
         this.storageService.addFound(character);
 
         const successAlert = await this.alertController.create({
-          header: 'Personaje Encontrado',
-          message: `Se encontró al personaje: ${character.name}`,
+          header: 'Character found',
+          message: `The character was found: ${character.name}`,
           buttons: ['OK'],
         });
 
         await successAlert.present();
-
       },
       (error) => {
         console.error("Error fetching character data:", error);
+
         this.alertController.create({
           header: 'Error',
-          message: 'No se pudo obtener los datos del personaje.',
+          message: 'It was not possible to obtain the characters data.',
           buttons: ['OK'],
         }).then(alert => alert.present());
       }
@@ -130,7 +130,8 @@ export class ScanComponent  implements OnInit {
 
   private async getLocation(): Promise<void> {
     try {
-      const position = await Geolocation.getCurrentPosition(); 
+      const position = await Geolocation.getCurrentPosition();
+
       this.location = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
@@ -148,6 +149,7 @@ export class ScanComponent  implements OnInit {
         character: character
       }
     });
+
     return await modal.present();
   }
 }

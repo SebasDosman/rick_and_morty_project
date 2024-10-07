@@ -20,18 +20,18 @@ export class StorageService {
     }
   }
 
-  getFound(): Character[] {
+  getFound(): any[] {
     return this.foundSubject.value;
   }
 
-  addFound(character: Character) {
+  addFound(character: any) {
     const currentFound = this.getFound();
 
     currentFound.push(character);
     this.updateFound(currentFound);
   }
 
-  removeFound(character: Character) {
+  removeFound(character: any) {
     const currentFound = this.getFound().filter(found => found.id !== character.id);
 
     this.updateFound(currentFound);
@@ -41,7 +41,7 @@ export class StorageService {
     return this.getFound().some(found => found.id.toString() === characterId.toString());
   }
 
-  private updateFound(found: Character[]) {
+  private updateFound(found: any[]) {
     localStorage.setItem('found', JSON.stringify(found));
 
     this.foundSubject.next(found);

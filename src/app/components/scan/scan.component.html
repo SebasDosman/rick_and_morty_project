@@ -4,14 +4,14 @@
 
     <ion-card-header>
       <ion-card-title>{{ character.name }}</ion-card-title>
-      <ion-card-subtitle>Found Characters</ion-card-subtitle>
+      <ion-card-subtitle>Characters Found</ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
-      <p>Ubicación del Personaje</p>
-      <p *ngIf="character.ubicacion">Longitud: {{ character.ubicacion.lng }}</p>
-      <p *ngIf="character.ubicacion">Latitud: {{ character.ubicacion.lat }}</p>
-      <p *ngIf="!character.ubicacion">Ubicación no disponible</p>
+      <p>Character Location</p>
+      <p *ngIf="character.location">Longitude: {{ character.location.longitude }}</p>
+      <p *ngIf="character.location">Latitude: {{ character.location.latitude }}</p>
+      <p *ngIf="!character.location">Location not available</p>
     </ion-card-content>
   </ion-card>
 

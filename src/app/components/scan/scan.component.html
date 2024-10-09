@@ -20,9 +20,9 @@
                 }}
               </p>
 
-              <h2>Character Location</h2>
-              <p *ngIf="character.location">Longitude: {{ character.location.longitude }}</p>
-              <p *ngIf="character.location">Latitude: {{ character.location.latitude }}</p>
+              <p *ngIf="character.location">Longitude where found: {{ character.location.longitude }}</p>
+              <p *ngIf="character.location">Latitude where found: {{ character.location.latitude }}</p>
+
               <p *ngIf="!character.location">Location not available</p>
             </ion-label>
           </ion-item>
